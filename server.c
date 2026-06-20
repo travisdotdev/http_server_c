@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 
 #define PORT "8080"
+#define BACKLOG 20
 
 //generic check helper
 void *get_in_addr(struct sockaddr *sa) {
@@ -66,9 +67,16 @@ int main() {
 		exit(1);
 	}
 
+	if (listen(sockfd, BACKLOG) == -1) {
+		perror("listen");
+		exit(1);
+	}
+
+	printf("server: waiting for connections... \n");
+
 
 	// while (1) {
-	// 	printf("Waiting for new request ...\n");
 	// 	sleep(1);
 	// }
+	//
 }
