@@ -74,9 +74,23 @@ int main() {
 
 	printf("server: waiting for connections... \n");
 
+	int max_len_received = 1000;
+	char received_request[max_len_received];
+	memset(received_request, 0, max_len_received);
 
-	// while (1) {
-	// 	sleep(1);
-	// }
-	//
+	// http://localhost:8080
+	while(1) {
+		sin_size = sizeof(their_addr);
+		new_fd = accept(sockfd, (struct sockaddr *)&their_addr, 
+				&sin_size);
+		if (new_fd == -1) {
+			perror("accept");
+		}
+		int num_bytes = recv(new_fd, received_request, max_len_received, 0);
+		printf("num_bytes = %d\n", num_bytes);
+		for (int i = 0; i < num_bytes; ++i) {
+			putchar(received_request[i]);
+		}
+		break;
+	}
 }
