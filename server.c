@@ -103,11 +103,24 @@ int main() {
 			printf("Received HTTP Request = %s!\n", http_request);
 
 			// TODO: Respond to GET request
+			char *status_line = "HTTP/1.1/ 200 OK\r\n";
+			send(new_fd, status_line, strlen(status_line), 0);
+
+			char *headers = "Content-Type: text/html\r\n\r\n";
+				// "Content-Length: 32\r\n";
+			send(new_fd, headers, strlen(headers), 0);
+
+			char *response_body = "<html><body><h1>Hello World!</h1></body></html>\r\n";
+			send(new_fd, response_body, strlen(response_body), 0);
 		}
 		else {
 			printf("Received Non-GET request. Ignoring ...\n");
 			exit(1);
 		}
+
+		close(new_fd);
+		close(sockfd);
+
 		break;
 	}
 }
