@@ -110,17 +110,21 @@ int main() {
 				// "Content-Length: 32\r\n";
 			send(new_fd, headers, strlen(headers), 0);
 
-			char *response_body = "<html><body><h1>Hello World!</h1></body></html>\r\n";
-			send(new_fd, response_body, strlen(response_body), 0);
+
+			// I know this section is borked (sending index byte by byte but it's funny)
+			FILE *index_fd = fopen("index.html", "r");
+			char c;
+			while( (c = getc(index_fd)) != EOF ) {
+				send(new_fd, &c, 1, 0);
+
+			}
+
+			// char *response_body = "<html><body><h1>Hello World!</h1></body></html>\r\n";
+			// send(new_fd, response_body, strlen(response_body), 0);
 		}
 		else {
 			printf("Received Non-GET request. Ignoring ...\n");
 			exit(1);
 		}
-
-		close(new_fd);
-		close(sockfd);
-
-		break;
 	}
 }
