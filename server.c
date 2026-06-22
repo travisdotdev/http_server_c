@@ -102,7 +102,6 @@ int main() {
 			http_request[4] = '\0';
 			printf("Received HTTP Request = %s!\n", http_request);
 
-			// TODO: Respond to GET request
 			char *status_line = "HTTP/1.1/ 200 OK\r\n";
 			send(new_fd, status_line, strlen(status_line), 0);
 
