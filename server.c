@@ -77,6 +77,8 @@ int main() {
 	int max_len_received = 1000;
 	char received_request[max_len_received];
 	memset(received_request, 0, max_len_received);
+	char http_request[5];
+	memset(http_request, 0, 5);
 
 	// http://localhost:8080
 	while(1) {
@@ -90,6 +92,21 @@ int main() {
 		printf("num_bytes = %d\n", num_bytes);
 		for (int i = 0; i < num_bytes; ++i) {
 			putchar(received_request[i]);
+		}
+
+
+		if ((strncmp(received_request, "GET", 3)) == 0) {
+			for (int i = 0; i < 3; i++) {
+				http_request[i] = received_request[i];
+			}
+			http_request[4] = '\0';
+			printf("Received HTTP Request = %s!\n", http_request);
+
+			// TODO: Respond to GET request
+		}
+		else {
+			printf("Received Non-GET request. Ignoring ...\n");
+			exit(1);
 		}
 		break;
 	}
